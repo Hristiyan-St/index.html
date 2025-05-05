@@ -77,7 +77,7 @@
   <div id="quiz-container"></div>
 
   <script>
-    // 1) Функция за разбъркване
+     
     function shuffleArray(array) {
       for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -85,7 +85,7 @@
       }
     }
 
-    // 2) Масивът с въпроси (тук можеш да добавиш твоите въпроси)
+    
     const allQuestions = [
       {"question": "При  определяне на мястото на кораба по небесни светила сутрин , първо се вземат отчетите към тези, които са:",
     "options": [
@@ -5671,17 +5671,17 @@
         "options": ["изток - запад", "североизток - югозапад", "юг - запад", "север - юг"],
         "correct": "север - юг"
       },
-      // Добави още въпроси тук
+      
     ];
 
-    // 3) Разбъркваме въпросите
+    
     shuffleArray(allQuestions);
 
-    // 4) Разбъркваме опциите за всеки въпрос
+    
     allQuestions.forEach(q => shuffleArray(q.options));
 
-    // 5) Избираме кои въпроси да се ползват
-    const selectedQuestions = allQuestions; // или .slice(0, 60)
+    
+    const selectedQuestions = allQuestions; 
 
     let currentIndex = 0;
     let userAnswers = Array(selectedQuestions.length).fill(null);
