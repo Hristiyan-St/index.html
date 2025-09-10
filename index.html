@@ -1,127 +1,101 @@
-<!DOCTYPE html>
+
+<!doctype html>
 <html lang="bg">
 <head>
-  <meta charset="UTF-8">
-  <title>Навигация Ф1</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Навигация Ф1 — Тест</title>
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: url('https://images.unsplash.com/photo-1519750157634-b6d493a0f77b?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
-      background-size: cover;
-      padding: 20px;
-      max-width: 960px;
-      margin: auto;
-      color: #333;
+    :root{--bg:#f7f8fb;--card:#fff;--accent:#007bff;--success:#28a745;--danger:#dc3545}
+    html,body{height:100%;margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);-webkit-font-smoothing:antialiased}
+    .app{max-width:980px;margin:18px auto;padding:14px}
+    header{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+    h1{margin:0;font-size:20px}
+    .controls{margin-left:auto;display:flex;gap:8px;align-items:center}
+    .btn{background:var(--accent);color:#fff;border:none;padding:8px 12px;border-radius:8px;font-size:14px;cursor:pointer}
+    .btn.ghost{background:transparent;color:var(--accent);border:1px solid rgba(0,123,255,.12)}
+    .small{padding:6px 8px;font-size:13px}
+    .card{background:var(--card);border-radius:12px;padding:14px;margin-top:12px;box-shadow:0 6px 18px rgba(10,10,10,.06)}
+    .score{font-size:15px}
+    .navigation{display:flex;gap:6px;overflow:auto;padding:6px 0}
+    .nav-dot{min-width:34px;height:34px;border-radius:8px;border:1px solid #e6e6e6;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+    .question {margin-top:6px}
+    .question-text{font-weight:600;margin-bottom:10px}
+    .options{display:grid;gap:8px}
+    button.option{padding:12px;border-radius:10px;border:1px solid #e6e6e6;background:#fafafa;text-align:left;cursor:pointer}
+    button.option.disabled{pointer-events:none;opacity:.6}
+    .progress-outer{height:14px;background:#eee;border-radius:999px;overflow:hidden;margin-top:12px}
+    .progress-inner{height:100%;width:0%;background:var(--accent)}
+    .meta{display:flex;gap:12px;align-items:center;margin-top:10px}
+    .right-col{display:flex;gap:8px;align-items:center}
+    .results{margin-top:12px}
+    .review{margin-top:12px}
+    @media(max-width:600px){
+      .btn{padding:10px 14px;border-radius:12px}
+      button.option{padding:16px;font-size:16px}
+      .nav-dot{min-width:42px;height:42px}
     }
-    .question-box {
-      background: rgba(255, 255, 255, 0.95);
-      padding: 20px;
-      margin-bottom: 20px;
-      border-radius: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-    }
-    .question-text {
-      font-size: 20px;
-      font-weight: bold;
-      margin-bottom: 15px;
-    }
-    .option {
-      display: block;
-      margin: 6px 0;
-      padding: 12px;
-      background: #eee;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      text-align: left;
-      font-size: 16px;
-      transition: background 0.3s;
-    }
-    .option.correct {
-      background-color: #28a745 !important;
-      color: white;
-      font-weight: bold;
-    }
-    .option.incorrect {
-      background-color: #dc3545 !important;
-      color: white;
-      font-weight: bold;
-    }
-    .option.disabled {
-      pointer-events: none;
-      opacity: 0.6;
-    }
-    .next-button {
-      margin-top: 15px;
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-    .navigation-wrapper {
-      max-height: 120px;
-      overflow-x: auto;
-      overflow-y: hidden;
-      margin-bottom: 30px;
-      padding-bottom: 10px;
-    }
-    .navigation {
-      display: flex;
-      gap: 5px;
-      flex-wrap: nowrap;
-    }
-    .nav-button {
-      padding: 8px 12px;
-      font-size: 14px;
-      cursor: pointer;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      background-color: #f1f1f1;
-      transition: background 0.3s, color 0.3s;
-      flex: 0 0 auto;
-    }
-    .nav-button.active {
-      background-color: #007bff;
-      color: white;
-    }
-    .nav-button.correct {
-      background-color: #28a745;
-      color: white;
-    }
-    .nav-button.incorrect {
-      background-color: #dc3545;
-      color: white;
-    }
-    .scoreboard {
-      font-size: 18px;
-      margin-bottom: 15px;
-      background: rgba(255, 255, 255, 0.85);
-      padding: 10px 15px;
-      border-radius: 10px;
-      display: inline-block;
-    }
-  </style>
+  
+    .option.correct { background: #d4edda; border-color: #28a745; }
+    .option.wrong { background: #f8d7da; border-color: #dc3545; }
+    .nav-dot.correct { background: #28a745 !important; color:#fff; }
+    .nav-dot.wrong { background: #dc3545 !important; color:#fff; }
+    .review-card {border:1px solid #eee;border-radius:8px;padding:10px;margin:8px 0;background:#fafafa}
+    .review-card .q {font-weight:600;margin-bottom:6px}
+    .review-card .your {color:#dc3545}
+    .review-card .correct {color:#28a745}
+    #historyList div{padding:6px 0;border-bottom:1px solid #eee}
+    </style>
 </head>
 <body>
-  <h1>Навигация Ф1</h1>
-  <div class="scoreboard" id="scoreboard">Верен: 0 | Грешен: 0</div>
-  <div class="navigation-wrapper">
-    <div class="navigation" id="navigation"></div>
+  <div class="app">
+    <header>
+      <h1>Навигация Ф1 — Тест</h1>
+      <div class="controls">
+        <label style="display:flex;align-items:center;gap:8px">
+          Вариант: <span id="variantLabel">—</span>
+        </label>
+        <input id="variantInput" type="number" placeholder="Въведи № вариант" style="width:120px;padding:8px;border-radius:8px;border:1px solid #ddd" />
+        <button id="loadVariant" class="btn small ghost">Зареди вариант</button>
+        <button id="newTest" class="btn small">Нов тест</button>
+        <button id="showHistory" class="btn small ghost">История на опитите</button>
+        <button id="toggleTimer" class="btn small ghost">Таймер: изкл.</button>
+      </div>
+    </header>
+
+    <div class="card">
+      <div class="meta">
+        <div class="score" id="scoreboard">Верен: 0 | Грешен: 0</div>
+        <div class="right-col">
+          <div id="progressLabel">0/60</div>
+        </div>
+      </div>
+
+      <div class="progress-outer"><div id="progressBar" class="progress-inner"></div></div>
+
+      <div id="navigation" class="navigation"></div>
+
+      <div id="questionArea"></div>
+
+      <div style="display:flex;gap:8px;margin-top:12px;align-items:center">
+        <button id="prevBtn" class="btn ghost small">Предишен</button>
+        <button id="nextBtn" class="btn small">Следващ</button>
+        <div style="margin-left:auto">Време: <span id="timerDisplay">00:00</span></div>
+      </div>
+
+      <div id="finalResult" class="results"></div>
+
+      <div id="reviewArea" class="review"></div>
+    
+    <div id="historyArea" class="card" style="display:none;margin-top:20px">
+      <h3>История на опитите</h3>
+      <div id="historyList"></div>
+    </div>
+</div>
   </div>
-  <div id="quiz-container"></div>
 
   <script>
-    function shuffleArray(array) {
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-      }
-    }
-
-    const allQuestions = [
+  const allQuestions = [
 
 
       {
@@ -6075,104 +6049,342 @@
     "correct": "целта плава с нашия курс, но е бавноходна или плава на противоположен курс или е на стоп"
   }
 
-];  
+];
 
+  
+  // --- Seeded RNG (mulberry32) and shuffle ---
+  function mulberry32(a){
+    return function(){
+      a |= 0; a = a + 0x6D2B79F5 | 0;
+      var t = Math.imul(a ^ a >>> 15, 1 | a);
+      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    }
+  }
+  function shuffleWithRng(arr, rng){
+    for(let i=arr.length-1;i>0;i--){
+      const j = Math.floor(rng() * (i+1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+  }
 
-    
-            shuffleArray(allQuestions);
-    allQuestions.forEach(q => shuffleArray(q.options));
+  // PARAMETERS & STORAGE
+  const TOTAL = 60;
+  const STORAGE_KEY = 'nav_test_state_v1';
 
-    const selectedQuestions = allQuestions;
-    let currentIndex = 0;
-    let userAnswers = Array(selectedQuestions.length).fill(null);
+  let state = {
+    variant: null,
+    questionOrder: [], // indices into allQuestions
+    optionOrders: {},  // questionIndex -> shuffled option order (array of indices)
+    answers: {},       // questionIndex -> chosen option string
+    current: 0,
+    correctCount:0,
+    wrongCount:0,
+    timerEnabled:false,
+    timerSeconds:0,
+    finished:false
+  };
 
-    function renderNavigation() {
-      const navDiv = document.getElementById("navigation");
-      navDiv.innerHTML = "";
-      for (let i = 0; i < selectedQuestions.length; i++) {
-        const btn = document.createElement("button");
-        btn.textContent = i + 1;
-        btn.className = "nav-button";
-        if (i === currentIndex) btn.classList.add("active");
-        if (userAnswers[i] !== null) {
-          if (userAnswers[i] === selectedQuestions[i].correct) {
-            btn.classList.add("correct");
-          } else {
-            btn.classList.add("incorrect");
-          }
-        }
-        btn.onclick = () => {
-          currentIndex = i;
-          renderQuestion();
-        };
-        navDiv.appendChild(btn);
+  // DOM refs
+  const newTestBtn = document.getElementById('newTest');
+  const loadVariantBtn = document.getElementById('loadVariant');
+  const variantInput = document.getElementById('variantInput');
+  const variantLabel = document.getElementById('variantLabel');
+  const navigation = document.getElementById('navigation');
+  const questionArea = document.getElementById('questionArea');
+  const scoreboard = document.getElementById('scoreboard');
+  const progressBar = document.getElementById('progressBar');
+  const progressLabel = document.getElementById('progressLabel');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const finalResult = document.getElementById('finalResult');
+  const reviewArea = document.getElementById('reviewArea');
+  const toggleTimerBtn = document.getElementById('toggleTimer');
+  const timerDisplay = document.getElementById('timerDisplay');
+
+  // Build variant from seed
+  function buildVariant(seedNumber){
+    const seed = Number(seedNumber) >>> 0 || 0;
+    const rng = mulberry32(seed + 0x9e3779b9);
+
+    // indices array
+    const indices = Array.from({length: allQuestions.length}, (_, i) => i);
+    shuffleWithRng(indices, rng);
+    const chosen = indices.slice(0, Math.min(TOTAL, indices.length));
+
+    // option orders for each chosen question
+    const optionOrders = {};
+    chosen.forEach(qi => {
+      const oIdx = allQuestions[qi].options.map((_, i) => i);
+      // for option shuffle, create a fresh rng instance per question to keep determinism
+      // advance the rng by using it in shuffleWithRng directly
+      shuffleWithRng(oIdx, rng);
+      optionOrders[qi] = oIdx;
+    });
+
+    return {seed, questionOrder: chosen, optionOrders};
+  }
+
+  // Save/load
+  function saveState(){
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) { console.warn('LocalStorage save failed', e); }
+  }
+  function loadState(){
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(!raw) return false;
+      const s = JSON.parse(raw);
+      Object.assign(state, s);
+      return true;
+    }catch(e){
+      console.warn('Corrupt or missing state');
+      return false;
+    }
+  }
+
+  // UI render
+  function renderNavigation(){
+    navigation.innerHTML = '';
+    if(!state.questionOrder) return;
+    state.questionOrder.forEach((qi, idx) => {
+      const btn = document.createElement('button');
+      btn.className = 'nav-dot';
+      if(state.answers[qi]) btn.style.background = '#f0f8ff';
+      btn.textContent = idx+1;
+      if(idx===state.current) btn.style.boxShadow='0 0 0 3px rgba(0,123,255,.12)';
+      btn.addEventListener('click', () => { state.current = idx; renderQuestion(); saveState(); });
+      navigation.appendChild(btn);
+    });
+  }
+
+  function renderQuestion(){
+    if(!state.questionOrder || state.questionOrder.length === 0){
+      questionArea.innerHTML = '<div style="padding:12px">Няма зареден тест — натисни „Нов тест“.</div>';
+      progressLabel.textContent = '0/0';
+      progressBar.style.width = '0%';
+      return;
+    }
+
+    const qi = state.questionOrder[state.current];
+    const q = allQuestions[qi];
+    variantLabel.textContent = state.variant===null? '—' : state.variant;
+    progressLabel.textContent = (state.current+1) + '/' + state.questionOrder.length;
+    progressBar.style.width = Math.round(((state.current+1)/state.questionOrder.length)*100) + '%';
+
+    questionArea.innerHTML = '';
+    const qDiv = document.createElement('div'); qDiv.className='question';
+    const qt = document.createElement('div'); qt.className='question-text'; qt.textContent = (state.current+1)+'. '+ q.question;
+    qDiv.appendChild(qt);
+
+    const optsDiv = document.createElement('div'); optsDiv.className='options';
+    const order = state.optionOrders[qi];
+    // fallback: if order missing, create a default order
+    const optOrder = Array.isArray(order) ? order.slice() : q.options.map((_,i)=>i);
+    optOrder.forEach(optIdx => {
+      const optText = q.options[optIdx];
+      const b = document.createElement('button');
+      b.className = 'option'; b.textContent = optText;
+      if(state.finished){
+        b.classList.add('disabled');
+        if(optText === q.correct) b.style.borderColor = 'var(--success)';
+        if(state.answers[qi]===optText && optText !== q.correct) b.style.borderColor = 'var(--danger)';
+      }else{
+        b.addEventListener('click', () => selectAnswer(qi, optText));
       }
+      optsDiv.appendChild(b);
+    });
+
+    qDiv.appendChild(optsDiv);
+    questionArea.appendChild(qDiv);
+    renderNavigation();
+    updateScoreboard();
+  }
+
+  function selectAnswer(qi, choice){
+    if(state.finished) return;
+    const prev = state.answers[qi];
+    if(prev){
+      if(prev === allQuestions[qi].correct) state.correctCount--;
+      else state.wrongCount--;
     }
-
-    function renderQuestion() {
-      renderNavigation();
-      updateScoreboard();
-      const q = selectedQuestions[currentIndex];
-      const container = document.getElementById("quiz-container");
-      container.innerHTML = "";
-
-      const box = document.createElement("div");
-      box.className = "question-box";
-
-      const qText = document.createElement("div");
-      qText.className = "question-text";
-      qText.textContent = (currentIndex + 1) + ". " + q.question;
-      box.appendChild(qText);
-
-      const labels = ['A', 'B', 'C', 'D'];
-
-      q.options.forEach((opt, index) => {
-        const btn = document.createElement("button");
-        btn.textContent = `${labels[index]}. ${opt}`;
-        btn.className = "option";
-        if (userAnswers[currentIndex] !== null) {
-          btn.classList.add("disabled");
-          if (opt === q.correct) btn.classList.add("correct");
-          else if (opt === userAnswers[currentIndex]) btn.classList.add("incorrect");
-        }
-        btn.onclick = () => {
-          if (userAnswers[currentIndex] !== null) return;
-          userAnswers[currentIndex] = opt;
-          renderQuestion();
-        };
-        box.appendChild(btn);
-      });
-
-      const nextButton = document.createElement("button");
-      nextButton.className = "next-button";
-      nextButton.textContent = currentIndex === selectedQuestions.length - 1 ? "Край" : "Следващ въпрос";
-      nextButton.onclick = () => {
-        if (currentIndex === selectedQuestions.length - 1) {
-          calculateResults();
-        } else {
-          currentIndex++;
-          renderQuestion();
-        }
-      };
-      box.appendChild(nextButton);
-      container.appendChild(box);
-    }
-
-    function updateScoreboard() {
-      let correct = 0, incorrect = 0;
-      userAnswers.forEach((ans, i) => {
-        if (ans === selectedQuestions[i].correct) correct++;
-        else if (ans !== null) incorrect++;
-      });
-      document.getElementById("scoreboard").textContent = `Верен: ${correct} | Грешен: ${incorrect}`;
-    }
-
-    function calculateResults() {
-      updateScoreboard();
-      alert("Тестът е завършен!");
-    }
-
+    state.answers[qi] = choice;
+    if(choice === allQuestions[qi].correct) state.correctCount++;
+    else state.wrongCount++;
+    saveState();
+    updateScoreboard();
     renderQuestion();
+  }
+
+  function updateScoreboard(){
+    scoreboard.textContent = `Верен: ${state.correctCount} | Грешен: ${state.wrongCount}`;
+  }
+
+  // Navigation buttons
+  prevBtn.addEventListener('click', () => { if(state.current>0){ state.current--; renderQuestion(); saveState(); } });
+  nextBtn.addEventListener('click', () => { if(state.current < state.questionOrder.length-1){ state.current++; renderQuestion(); saveState(); } else finishTest(); });
+
+  // New test / load variant
+  newTestBtn.addEventListener('click', () => { const randomSeed = Math.floor(Math.random()*1e9); createTestFromSeed(randomSeed); });
+  loadVariantBtn.addEventListener('click', () => { const val = Number(variantInput.value); if(!Number.isInteger(val)){ alert('Въведи цяло число за номер.'); return; } createTestFromSeed(val); });
+
+  function createTestFromSeed(seed){
+    const v = buildVariant(seed);
+    state.variant = v.seed;
+    state.questionOrder = v.questionOrder;
+    state.optionOrders = v.optionOrders;
+    state.answers = {};
+    state.current = 0;
+    state.correctCount = 0;
+    state.wrongCount = 0;
+    state.finished = false;
+    state.timerSeconds = 0;
+    saveState();
+    renderQuestion();
+  }
+
+  // Finish, scoring and review
+  function finishTest(){
+    state.finished = true;
+    saveState();
+    const wrong = state.wrongCount;
+    finalResult.innerHTML = '';
+    const res = document.createElement('div');
+    res.textContent = `Готово — грешки: ${wrong}. `;
+    const pass = (wrong <= 9);
+    const badge = document.createElement('span'); badge.style.marginLeft='8px';
+    badge.textContent = pass? '✅ Изпита е взет' : '❌ Изпита не е взет';
+    res.appendChild(badge);
+    finalResult.appendChild(res);
+
+    // show review
+    reviewArea.innerHTML = '<h3>Преглед на отговорите</h3>';
+    state.questionOrder.forEach((qi,idx) => {
+      const q = allQuestions[qi];
+      const row = document.createElement('div');
+      row.style.padding='8px'; row.style.borderBottom='1px solid #f1f1f1';
+      const txt = document.createElement('div'); txt.textContent = (idx+1)+'. '+q.question;
+      const your = document.createElement('div'); your.textContent = 'Твоя отговор: ' + (state.answers[qi] || '—');
+      const correct = document.createElement('div'); correct.textContent = 'Правилен: ' + q.correct;
+      row.appendChild(txt); row.appendChild(your); row.appendChild(correct);
+      reviewArea.appendChild(row);
+    });
+    renderQuestion();
+  }
+
+  // Timer
+  let timerInterval = null;
+  toggleTimerBtn.addEventListener('click', () => {
+    state.timerEnabled = !state.timerEnabled;
+    toggleTimerBtn.textContent = 'Таймер: ' + (state.timerEnabled? 'вкл.' : 'изкл.');
+    saveState();
+    if(state.timerEnabled) startTimer(); else stopTimer();
+  });
+
+  function startTimer(){
+    if(timerInterval) return;
+    timerInterval = setInterval(()=>{
+      state.timerSeconds++;
+      const m = String(Math.floor(state.timerSeconds/60)).padStart(2,'0');
+      const s = String(state.timerSeconds%60).padStart(2,'0');
+      timerDisplay.textContent = m+':'+s;
+      saveState();
+    },1000);
+  }
+  function stopTimer(){ if(timerInterval){ clearInterval(timerInterval); timerInterval=null; } }
+
+  // Init: try load state or create new test
+  (function init(){
+    const ok = loadState();
+    if(ok && state.questionOrder && state.questionOrder.length>0){
+      document.getElementById('variantLabel').textContent = state.variant;
+      if(state.timerEnabled) startTimer();
+      renderQuestion();
+    }else{
+      createTestFromSeed(Math.floor(Math.random()*1e9));
+    }
+  })();
+
+  
+  // --- HISTORY OF ATTEMPTS ---
+  const historyBtn = document.getElementById('showHistory');
+  const historyArea = document.getElementById('historyArea');
+  const historyList = document.getElementById('historyList');
+
+  historyBtn.addEventListener('click', () => {
+    historyArea.style.display = historyArea.style.display==='none' ? 'block' : 'none';
+    renderHistory();
+  });
+
+  function saveAttempt() {
+    const wrong = state.wrongCount;
+    const pass = wrong <= 9;
+    const time = state.timerSeconds;
+    const entry = {
+      variant: state.variant,
+      wrong,
+      pass,
+      time
+    };
+    let arr = [];
+    try { arr = JSON.parse(localStorage.getItem('attemptHistory')) || []; } catch(e){}
+    arr.push(entry);
+    localStorage.setItem('attemptHistory', JSON.stringify(arr));
+  }
+
+  function renderHistory() {
+    let arr = [];
+    try { arr = JSON.parse(localStorage.getItem('attemptHistory')) || []; } catch(e){}
+    historyList.innerHTML = '';
+    if(arr.length===0){ historyList.innerHTML = '<div>Няма опити.</div>'; return; }
+    arr.forEach((a, idx) => {
+      const div = document.createElement('div');
+      const m = String(Math.floor(a.time/60)).padStart(2,'0');
+      const s = String(a.time%60).padStart(2,'0');
+      div.textContent = (idx+1)+') Вариант '+a.variant+' — грешки: '+a.wrong+' — '+(a.pass?'✅ Взет':'❌ Не взет')+' — време: '+m+':'+s;
+      historyList.appendChild(div);
+    });
+  }
+
+  // --- MODIFY selectAnswer to color buttons and nav-dot ---
+  const _oldSelectAnswer = selectAnswer;
+  selectAnswer = function(qi, choice) {
+    _oldSelectAnswer(qi, choice);
+    const q = allQuestions[qi];
+    const opts = questionArea.querySelectorAll('.option');
+    opts.forEach(b => {
+      if(b.textContent === q.correct) b.classList.add('correct');
+      if(state.answers[qi]===b.textContent && b.textContent !== q.correct) b.classList.add('wrong');
+    });
+    // color nav-dot
+    const nav = navigation.children[state.current];
+    if(state.answers[qi]===q.correct) nav.classList.add('correct');
+    else nav.classList.add('wrong');
+  };
+
+  // --- MODIFY finishTest to use review-cards and save attempt ---
+  const _oldFinishTest = finishTest;
+  finishTest = function() {
+    _oldFinishTest();
+    // Save attempt
+    saveAttempt();
+    // Re-render review in card style
+    reviewArea.innerHTML = '<h3>Преглед на отговорите</h3>';
+    state.questionOrder.forEach((qi,idx) => {
+      const q = allQuestions[qi];
+      const row = document.createElement('div');
+      row.className='review-card';
+      const qd = document.createElement('div'); qd.className='q'; qd.textContent = (idx+1)+'. '+q.question;
+      const yd = document.createElement('div'); yd.className='your'; yd.textContent = 'Твой отговор: '+(state.answers[qi]||'—');
+      const cd = document.createElement('div'); cd.className='correct'; cd.textContent = 'Правилен: '+q.correct;
+      row.appendChild(qd); row.appendChild(yd); row.appendChild(cd);
+      reviewArea.appendChild(row);
+    });
+  };
+
+
+  // debug
+  window._navtest_state = state;
+
   </script>
 </body>
 </html>
